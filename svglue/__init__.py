@@ -52,11 +52,7 @@ class Template(object):
             elif elem.tag == TEXT_TAG:
                 self._tspan_subs[tid] = elem[0]
             else:
-                raise TemplateParseError(
-                    'Can only replace <rect> and <tspan> elements, found %s '
-                    'instead' % (elem.tag,)
-                )
-
+                pass
         defs = self._doc.xpath('/svg:svg/svg:defs', namespaces={'svg': SVG_NS})
 
         if defs:
