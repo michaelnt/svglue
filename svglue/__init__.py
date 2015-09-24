@@ -20,29 +20,29 @@ class TemplateParseError(Exception):
 
 class Template(object):
     @classmethod
-    def load(cls, src=None, file=None):
+    def load(cls, src=None, file=None, attrib_name='template-id'):
         if not (src == None) ^ (file == None):
             raise RuntimeError('Must specify exactly one of src or '
                                'file argument')
 
         if src:
-            return cls(etree.fromstring(src))
+            return cls(etree.fromstring(src), attrib_name)
 
-        return cls(etree.parse(file))
+        return cls(etree.parse(file), attrib_name)
 
-    def __init__(self, doc):
+    def __init__(self, doc, attrib_name):
         self._doc = doc
         self._rect_subs = {}
         self._tspan_subs = {}
         self._defs = None
 
         for elem in self._doc.xpath('//*'):
-            tid = elem.get('template-id', None)
+            tid = elem.get(attrib_name, None)
             if not tid:
                 continue
 
             # FIXME: use own namespace?
-            del elem.attrib['template-id']
+            del elem.attrib[attrib_name]
 
             if elem.tag == RECT_TAG:
                 self._rect_subs[tid] = elem
