@@ -9,6 +9,7 @@ from lxml import etree
 SVG_NS = 'http://www.w3.org/2000/svg'
 RECT_TAG = '{http://www.w3.org/2000/svg}rect'
 TSPAN_TAG = '{http://www.w3.org/2000/svg}tspan'
+TEXT_TAG = '{http://www.w3.org/2000/svg}text'
 IMAGE_TAG = '{http://www.w3.org/2000/svg}image'
 USE_TAG = '{http://www.w3.org/2000/svg}use'
 HREF_ATTR = '{http://www.w3.org/1999/xlink}href'
@@ -48,6 +49,8 @@ class Template(object):
                 self._rect_subs[tid] = elem
             elif elem.tag == TSPAN_TAG:
                 self._tspan_subs[tid] = elem
+            elif elem.tag == TEXT_TAG:
+                self._tspan_subs[tid] = elem[0]
             else:
                 raise TemplateParseError(
                     'Can only replace <rect> and <tspan> elements, found %s '
